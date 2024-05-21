@@ -4,6 +4,7 @@
   "description": "Commands to set up an API server with @novice1/frame.",
   "main": "index.js",
   "scripts": {
+    "cmdnew": "node ./bin/novice-frame-setup new private",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {

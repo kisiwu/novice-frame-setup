@@ -17,11 +17,11 @@ function newCmd(program) {
      * @param {string} moduleName
      */
     return function action(moduleName) {
-        const opts = program.opts();
+        const opts = this.opts();
         const modulePath = path.join(process.cwd(), moduleName)
 
         // --debug
-        if (opts.verbose) {
+        if (program.opts().debug) {
             require('debug').enable('nfs:*');
         }
 
@@ -36,7 +36,7 @@ function newCmd(program) {
         mkdir.sync(modulePath);
 
         // copy template files
-        fs.cpSync(path.join(__dirname, '..', 'assets', 'templates', 'basic'), modulePath, { recursive: true })
+        fs.cpSync(path.join(__dirname, '..', 'assets', 'templates', opts.template), modulePath, { recursive: true })
 
         // create package.json
         const packageJsonContent = {
@@ -56,8 +56,43 @@ function newCmd(program) {
             "license": `${opts.license || 'ISC'}`,
             "dependencies": {}
         };
-
         fs.writeFileSync(path.join(modulePath, 'package.json'), JSON.stringify(packageJsonContent, null, '    '));
+
+        // create config files
+        fs.writeFileSync(path.join(modulePath, '.env'), 'PORT=8080');
+        fs.writeFileSync(path.join(modulePath, '.eslintrc.json'), JSON.stringify({
+            "env": {
+                "browser": true,
+                "es6": true
+            },
+            "extends": [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended"
+            ],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "ecmaVersion": 6,
+                "sourceType": "module"
+            },
+            "plugins": [
+                "@typescript-eslint"
+            ],
+            "rules": {
+                "quotes": [1, "single"],
+                "quote-props": [1, "as-needed"],
+                "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }]
+            }
+        }, null, '    '));
+        fs.writeFileSync(path.join(modulePath, 'nodemon.json'), JSON.stringify({
+            "watch": [
+                "src"
+            ],
+            "ext": "ts,json",
+            "ignore": [
+                "src/**/*.spec.ts"
+            ],
+            "exec": "dotenvx run -- ts-node ./src/index.ts"
+        }, null, '    '));
 
         // install dependencies
         const cp = cp_exec(`cd ${modulePath} && \

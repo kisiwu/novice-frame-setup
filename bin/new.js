@@ -48,7 +48,7 @@ function newCmd(program) {
                 "build": "tsc",
                 "dev": "nodemon",
                 "lint": "eslint src/**/*.ts",
-                "start": "node lib/index.js",
+                "start": "node dist/index.js",
                 "test": "echo \"Error: no test specified\" && exit 1"
             },
             "keywords": [],

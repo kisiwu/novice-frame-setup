@@ -1,5 +1,6 @@
 import { Frame } from '@novice1/frame'
 import Logger from '@novice1/logger'
+import { AddressInfo } from 'net'
 import { PORT } from './config/app'
 import { httpError, httpNotFound, validatorOnError } from './middlewares/http'
 import homepage from './routers/homepage'
@@ -25,6 +26,7 @@ frame
     .useError(httpError)
 
 // listen
-frame.listen(PORT, () => {
-    Logger.info(`Application listening on port ${PORT}!`)
+const server = frame.listen(PORT, () => {
+    const addressInfo = server.address() as AddressInfo
+    Logger.info('Application listening on port', addressInfo.port);
 })

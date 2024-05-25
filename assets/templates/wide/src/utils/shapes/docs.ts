@@ -5,6 +5,7 @@ export const docs = new DocsShape()
     .setPath('/docs')
     .setTitle(APP_NAME)
     .setVersion(APP_VERSION)
+    .setLicense('')
     .setHost({
         url: '{protocol}://{domain}{port}',
         description: APP_DESCRIPTION,

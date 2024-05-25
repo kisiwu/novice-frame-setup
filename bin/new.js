@@ -19,6 +19,7 @@ function newCmd(program) {
     return function action(moduleName) {
         const opts = this.opts();
         const modulePath = path.join(process.cwd(), moduleName)
+        const isBasic = opts.template == 'basic'
         const isWide = opts.template == 'wide'
 
         // --debug
@@ -62,7 +63,12 @@ function newCmd(program) {
         fs.writeFileSync(path.join(modulePath, 'package.json'), JSON.stringify(packageJsonContent, null, '    '));
 
         // create config files
-        fs.writeFileSync(path.join(modulePath, '.env'), 'PORT=8080');
+        let dotenvContent = 'PORT=8080\n'
+        if (!isBasic) {
+            dotenvContent += 'LOG_LEVEL=2\n'
+            dotenvContent += 'LOG_DEBUG=\n'
+        }
+        fs.writeFileSync(path.join(modulePath, '.env'), dotenvContent);
         fs.writeFileSync(path.join(modulePath, '.eslintrc.json'), JSON.stringify({
             "env": {
                 "browser": true,
@@ -88,7 +94,9 @@ function newCmd(program) {
         }, null, '    '));
         fs.writeFileSync(path.join(modulePath, 'nodemon.json'), JSON.stringify({
             "watch": [
-                "src"
+                "src",
+                ".env",
+                ".env.development.local"
             ],
             "ext": "ts,json",
             "ignore": [

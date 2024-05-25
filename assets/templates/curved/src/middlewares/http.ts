@@ -2,13 +2,9 @@ import { ErrorRequestHandler, RequestHandler } from 'express'
 import Logger from '@novice1/logger'
 import routing from '@novice1/routing'
 
-const logger = Logger.debugger('middleware')
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const httpError: ErrorRequestHandler = (err, _req, res, _next) => {
-    logger
-        .extend('httpError')
-        .error(err);
+    Logger.error(err);
     return res.status(500).json({message: 'Something went wrong.', label: 'InternalServerError'})
 }
 

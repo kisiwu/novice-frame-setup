@@ -58,6 +58,7 @@ function newCmd(program) {
             "dependencies": {}
         };
         if (isWide) {
+            packageJsonContent.scripts['test'] = 'kaukau -r ts-node/register -f src --ext .spec.ts'
             packageJsonContent.scripts['test:e2e'] = 'kaukau --require ts-node/register --config test/kaukau-e2e.json'
         }
         fs.writeFileSync(path.join(modulePath, 'package.json'), JSON.stringify(packageJsonContent, null, '    '));

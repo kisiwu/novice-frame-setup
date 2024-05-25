@@ -1,11 +1,10 @@
 import { DocsShape } from '@novice1/frame';
-import { APP_DESCRIPTION, APP_LICENSE, APP_NAME, APP_VERSION } from '../../config/app';
+import { APP_DESCRIPTION, APP_NAME, APP_VERSION } from '../../config/app';
 
 export const docs = new DocsShape()
     .setPath('/docs')
     .setTitle(APP_NAME)
     .setVersion(APP_VERSION)
-    .setLicense(APP_LICENSE)
     .setHost({
         url: '{protocol}://{domain}{port}',
         description: APP_DESCRIPTION,

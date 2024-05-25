@@ -19,6 +19,7 @@ function newCmd(program) {
     return function action(moduleName) {
         const opts = this.opts();
         const modulePath = path.join(process.cwd(), moduleName)
+        const isWide = opts.template == 'wide'
 
         // --debug
         if (program.opts().debug) {
@@ -55,6 +56,9 @@ function newCmd(program) {
             },
             "dependencies": {}
         };
+        if (isWide) {
+            packageJsonContent.scripts['test:e2e'] = 'kaukau --require ts-node/register --config test/kaukau-e2e.json'
+        }
         fs.writeFileSync(path.join(modulePath, 'package.json'), JSON.stringify(packageJsonContent, null, '    '));
 
         // create config files
@@ -94,10 +98,15 @@ function newCmd(program) {
         }, null, '    '));
 
         // install dependencies
-        const cp = cp_exec(`cd ${modulePath} && \
+        let installCommands = `cd ${modulePath} && \
         npm i @dotenvx/dotenvx @novice1/api-doc-generator @novice1/frame @novice1/logger @novice1/routing tslib && \
         npm i -D @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@8.57.0 nodemon ts-node typescript && \
-        npm i joi`);
+        npm i joi`;
+        if (isWide) {
+            installCommands += ` && \
+            npm i -D @types/chai @types/mocha @types/supertest chai@4 kaukau supertest`
+        }
+        const cp = cp_exec(installCommands);
 
         logger.info(`installing dependencies`);
     };

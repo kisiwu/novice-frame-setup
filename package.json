@@ -1,6 +1,6 @@
 {
   "name": "novice-frame-setup",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Commands to set up an API server with @novice1/frame.",
   "main": "index.js",
   "scripts": {

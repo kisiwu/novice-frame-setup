@@ -3,7 +3,7 @@
   "include": ["src"],
   "exclude": ["node_modules"],
   "compilerOptions": {
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "src/types"],
     "module": "CommonJS",
     "lib": ["DOM", "ES6"],
     "target": "ES6",

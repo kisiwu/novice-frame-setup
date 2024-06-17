@@ -222,7 +222,7 @@ function newCmd(program) {
         // install dependencies
         let installCommands = `cd ${modulePath} && \
         npm i @dotenvx/dotenvx @novice1/api-doc-generator @novice1/frame @novice1/logger @novice1/routing tslib && \
-        npm i -D @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@8.57.0 nodemon ts-node typescript && \
+        npm i -D @types/express @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@8.57.0 nodemon ts-node typescript && \
         npm i joi`;
         if (isWide) {
             installCommands += ` && \

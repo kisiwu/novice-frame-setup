@@ -5,11 +5,13 @@ import routing from '@novice1/routing'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const httpError: ErrorRequestHandler = (err, _req, res, _next) => {
     Logger.error(err);
-    return res.status(500).json({message: 'Something went wrong.', label: 'InternalServerError'})
+    res.status(500).json({message: 'Something went wrong.', label: 'InternalServerError'});
+    return;
 }
 
 export const httpNotFound: RequestHandler = (_, res) => {
-    return res.status(404).json({message: 'The resource was not found.', label: 'NotFound'})
+    res.status(404).json({message: 'The resource was not found.', label: 'NotFound'});
+    return;
 }
 
 export const validatorOnError: routing.ErrorRequestHandler = (err, _req, res) => {

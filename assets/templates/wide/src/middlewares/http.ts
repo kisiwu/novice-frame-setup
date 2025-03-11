@@ -6,13 +6,15 @@ const logger = Logger.debugger('middleware')
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const httpError: ErrorRequestHandler = (err, _req, res, _next) => {
-    Logger.error(err)
-    return res.status(500).json({message: 'Something went wrong.', label: 'InternalServerError'})
+    Logger.error(err);
+    res.status(500).json({message: 'Something went wrong.', label: 'InternalServerError'});
+    return;
 }
 
 export const httpNotFound: RequestHandler = (req, res) => {
-    logger.extend('httpNotFound').log(`${req.method} ${req.originalUrl}`)
-    return res.status(404).json({message: 'The resource was not found.', label: 'NotFound'})
+    logger.extend('httpNotFound').log(`${req.method} ${req.originalUrl}`);
+    res.status(404).json({message: 'The resource was not found.', label: 'NotFound'});
+    return;
 }
 
 export const validatorOnError: routing.ErrorRequestHandler = (err, req, res) => {

@@ -226,7 +226,7 @@ function newCmd(program) {
         npm i joi`;
         if (isWide) {
             installCommands += ` && \
-            npm i -D @types/chai @types/mocha @types/supertest chai@4 kaukau supertest`
+            npm i -D @types/chai @types/mocha @types/supertest @types/swagger-ui-express chai@4 kaukau supertest`
         }
         const cp = cp_exec(installCommands);
 

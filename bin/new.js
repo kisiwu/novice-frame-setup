@@ -163,7 +163,7 @@ function newCmd(program) {
             "scripts": {
                 "build": "tsc",
                 "dev": "nodemon",
-                "lint": "eslint src/**/*.ts",
+                "lint": "eslint .",
                 "start": "node dist/index.js",
                 "test": "echo \"Error: no test specified\" && exit 1"
             },
@@ -171,7 +171,7 @@ function newCmd(program) {
         };
         if (isWide) {
             packageJsonContent.scripts['test'] = 'kaukau -r ts-node/register -f src --ext .spec.ts'
-            packageJsonContent.scripts['test:e2e'] = 'kaukau --require ts-node/register --config test/kaukau-e2e.json'
+            packageJsonContent.scripts['test:e2e'] = 'kaukau --require ts-node/register --config test/kaukau-e2e.mjs'
         }
         fs.writeFileSync(path.join(modulePath, 'package.json'), JSON.stringify(packageJsonContent, null, '    '));
 
@@ -182,29 +182,6 @@ function newCmd(program) {
             dotenvContent += 'LOG_DEBUG=\n'
         }
         fs.writeFileSync(path.join(modulePath, '.env'), dotenvContent);
-        fs.writeFileSync(path.join(modulePath, '.eslintrc.json'), JSON.stringify({
-            "env": {
-                "browser": true,
-                "es6": true
-            },
-            "extends": [
-                "eslint:recommended",
-                "plugin:@typescript-eslint/recommended"
-            ],
-            "parser": "@typescript-eslint/parser",
-            "parserOptions": {
-                "ecmaVersion": 6,
-                "sourceType": "module"
-            },
-            "plugins": [
-                "@typescript-eslint"
-            ],
-            "rules": {
-                "quotes": [1, "single"],
-                "quote-props": [1, "as-needed"],
-                "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }]
-            }
-        }, null, '    '));
         fs.writeFileSync(path.join(modulePath, '.gitignore'), gitignoreContent);
         fs.writeFileSync(path.join(modulePath, 'nodemon.json'), JSON.stringify({
             "watch": [
@@ -222,11 +199,11 @@ function newCmd(program) {
         // install dependencies
         let installCommands = `cd ${modulePath} && \
         npm i @dotenvx/dotenvx @novice1/api-doc-generator @novice1/frame @novice1/logger @novice1/routing tslib && \
-        npm i -D @types/express @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@8.57.0 nodemon ts-node typescript && \
+        npm i -D @eslint/eslintrc @eslint/js @stylistic/eslint-plugin-js @types/express @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint globals nodemon ts-node typescript typescript-eslint && \
         npm i joi`;
         if (isWide) {
             installCommands += ` && \
-            npm i -D @types/chai @types/mocha @types/supertest @types/swagger-ui-express chai@4 kaukau supertest`
+            npm i -D @types/chai @types/mocha @types/supertest @types/swagger-ui-express chai@4 eslint-plugin-mocha kaukau supertest`
         }
         const cp = cp_exec(installCommands);
 

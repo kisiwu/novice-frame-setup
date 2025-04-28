@@ -4,7 +4,6 @@ import routing from '@novice1/routing'
 
 const logger = Logger.debugger('middleware')
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const httpError: ErrorRequestHandler = (err, _req, res, _next) => {
     Logger.error(err);
     res.status(500).json({message: 'Something went wrong.', label: 'InternalServerError'});

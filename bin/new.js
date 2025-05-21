@@ -1,10 +1,11 @@
-const logger = require('@novice1/logger'),
-    debug = logger.debugger('nfs:cmd:new'),
-    fs = require('fs'),
-    path = require('path'),
-    mkdir = require('mkdirp');
+import logger from '@novice1/logger'
+import fs from 'fs'
+import path from 'path'
+import { mkdirp } from 'mkdirp'
+import { exec as cp_exec } from 'child_process'
 
-const { exec: cp_exec } = require('child_process')
+const debug = logger.debugger('nfs:cmd:new')
+const __dirname = import.meta.dirname
 
 const gitignoreContent=`
 /dist
@@ -122,9 +123,9 @@ web_modules/
 /**
  *
  * @param {import('commander').Command} program
- * @returns {function} action
+ * @returns {(this: import('commander').Command, ...args: any[]) => void | Promise<void>} action
  */
-function newCmd(program) {
+export default function newCmd(program) {
     /**
      * @param {string} moduleName
      */
@@ -136,7 +137,7 @@ function newCmd(program) {
 
         // --debug
         if (program.opts().debug) {
-            require('debug').enable('nfs:*');
+            logger.Debug.enable('nfs:*');
         }
 
         debug.debug(`new module: ${moduleName}`)
@@ -147,7 +148,7 @@ function newCmd(program) {
         }
 
         // create folder
-        mkdir.sync(modulePath);
+        mkdirp.sync(modulePath);
 
         // copy template files
         fs.cpSync(path.join(__dirname, '..', 'assets', 'templates', opts.template), modulePath, { recursive: true,  })
@@ -211,4 +212,3 @@ function newCmd(program) {
     };
 }
 
-module.exports = newCmd;

@@ -9,7 +9,7 @@ const debug = logger.debugger('nfs:cmd:create-security-shape')
 export const TEMPLATES_NAMES = [
     'authorization-code',
     'client-credentials',
-    //'openid' // @TODO
+    'openid'
 ]
 
 const TEMPLATES = [
@@ -23,14 +23,11 @@ const TEMPLATES = [
         display: 'OAuth2 Client Credentials Flow',
         color: colors.yellow,
     },
-    /*
-    // @TODO
     {
         name: 'openid',
         display: 'Open ID',
         color: colors.cyan,
     }
-    */
 ]
 
 /**

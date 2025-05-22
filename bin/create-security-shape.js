@@ -7,7 +7,9 @@ import colors from 'picocolors'
 const debug = logger.debugger('nfs:cmd:create-security-shape')
 
 export const TEMPLATES_NAMES = [
-    'authorization-code', 'client-credentials', 'password'
+    'authorization-code',
+    'client-credentials',
+    //'openid' // @TODO
 ]
 
 const TEMPLATES = [
@@ -21,11 +23,14 @@ const TEMPLATES = [
         display: 'OAuth2 Client Credentials Flow',
         color: colors.yellow,
     },
+    /*
+    // @TODO
     {
-        name: 'password',
-        display: 'OAuth2 Password Flow',
-        color: colors.red,
+        name: 'openid',
+        display: 'Open ID',
+        color: colors.cyan,
     }
+    */
 ]
 
 /**
@@ -90,6 +95,15 @@ export default function createSecurityShapeCmd(program) {
         debug('template =', template)
 
         // 4. Install
-        // @TODO
+        const templateDir = path.resolve(
+            import.meta.dirname,
+            '..',
+            'templates',
+            'security',
+            `${template}`,
+        )
+        const utilsDir = path.resolve(targetDir, 'src', 'utils', 'shapes', 'security')
+
+        fs.cpSync(templateDir, utilsDir, { recursive: true })
     }
 }

@@ -232,9 +232,26 @@ export class OpenIDShape extends OAuth2ACShape {
                 parameters: {
                     undoc: true
                 }
-            }, controller(async () => ({
-                keys: [] // RS256 public keys
-            })))
+            },
+                //#region @TODO: serve and rotate RS256 public keys
+                controller(async () => ({
+                    keys: []
+                }))
+                //#endregion @TODO: serve and rotate RS256 public keys
+            )
+            .get({
+                path: `${userInfoEndpoint}`,
+                parameters: {
+                    undoc: true
+                }
+            },
+                //#region @TODO: serve user info
+                controller(async () => ({
+                    sub: 'userid',
+                    email: 'user@novice1'
+                }))
+                //#endregion @TODO: serve user info
+            )
             .use(super.router())
     }
 

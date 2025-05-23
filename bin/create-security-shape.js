@@ -17,16 +17,19 @@ const TEMPLATES = [
         name: 'authorization-code',
         display: 'OAuth2 Authorization Code Flow',
         color: colors.green,
+        file: 'authenticationCodeSecurity.ts'
     },
     {
         name: 'client-credentials',
         display: 'OAuth2 Client Credentials Flow',
         color: colors.yellow,
+        file: 'clientCredentialsSecurity.ts'
     },
     {
         name: 'openid',
         display: 'Open ID',
         color: colors.cyan,
+        file: 'openIDSecurity.ts'
     }
 ]
 
@@ -64,6 +67,7 @@ export default function createSecurityShapeCmd(program) {
 
         // 3. Choose a template
         let template = opts.template
+        let fileName = ''
         let hasInvalidArgTemplate = false
 
         if (opts.template && !TEMPLATES_NAMES.includes(opts.template)) {
@@ -87,6 +91,7 @@ export default function createSecurityShapeCmd(program) {
             if (prompts.isCancel(templateObj)) return cancel()
 
             template = templateObj.name
+            fileName = templateObj.file
         }
 
         debug('template =', template)
@@ -100,7 +105,31 @@ export default function createSecurityShapeCmd(program) {
             `${template}`,
         )
         const utilsDir = path.resolve(targetDir, 'src', 'utils', 'shapes', 'security')
+        const targetFile = path.join(utilsDir, fileName)
+
+        if (fileName && fs.existsSync(targetFile)) {
+            const overwrite = opts.overwrite
+                ? 'yes'
+                : await prompts.select({
+                    message:
+                        (`Target file "${targetFile}"`) +
+                        ` already exists. Please choose how to proceed:`,
+                    options: [
+                        {
+                            label: 'Cancel operation',
+                            value: 'no',
+                        },
+                        {
+                            label: 'Replace file',
+                            value: 'yes',
+                        },
+                    ],
+                })
+            if (prompts.isCancel(overwrite) || overwrite === 'no') return cancel()
+        }
 
         fs.cpSync(templateDir, utilsDir, { recursive: true })
+
+        fileName ? prompts.outro(`Created "${targetFile}"`) : prompts.outro(`Created "${utilsDir}"`)
     }
 }

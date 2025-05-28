@@ -1,7 +1,7 @@
 # novice-frame-setup
 Commands that help set up utilities for an application created with @novice1/frame.
 
-To create a @novice1/frame project, see [create-novice-frame](https://www.npmjs.com/package/create-novice-frame).
+To create a project with [@novice1/frame](https://www.npmjs.com/package/@novice1/frame), see [create-novice-frame](https://www.npmjs.com/package/create-novice-frame).
 
 ## Commands
 

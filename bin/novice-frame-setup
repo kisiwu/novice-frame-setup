@@ -1,8 +1,5 @@
 #! /usr/bin/env node
-
-//import pckg from '../package.json' assert { type: 'json' }
 import { Command, Option } from 'commander'
-import newCmd from './new.js'
 import createSecurityShapeCmd, { TEMPLATES_NAMES } from './create-security-shape.js'
 
 const program = new Command();
@@ -12,22 +9,6 @@ const { default: pckg } = await import('../package.json', { with: { type: 'json'
 program
   .version(pckg.version)
   .option('--debug', 'debug mode');
-
-/**
- * setup command
- */
-program
-  .command('new')
-  .argument(
-    '<module>',
-    'the name of the new module'
-  )
-  .option('--author <author>')
-  .option('--description <description>')
-  .option('--license <license>')
-  .addOption(new Option('-t, --template <template>', 'the template to use').choices(['basic', 'curved', 'wide']).default('basic'))
-  .description('setup a new project')
-  .action(newCmd(program));
 
 program
   .command('create-security-shape')

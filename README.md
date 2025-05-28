@@ -1,2 +1,16 @@
 # novice-frame-setup
-Commands to set up an API server with @novice1/frame.
+Commands that help set up utilities for an application created with @novice1/frame.
+
+To create a @novice1/frame project, see [create-novice-frame](https://www.npmjs.com/package/create-novice-frame).
+
+## Commands
+
+### Help
+```sh
+npx novice-frame-setup@latest help
+```
+
+### Create a security shape
+```sh
+npx novice-frame-setup@latest create-security-shape
+```

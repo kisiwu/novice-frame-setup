@@ -1,1 +1,0 @@
-export const PORT = process.env.PORT && !isNaN(parseInt(process.env.PORT)) ? parseInt(process.env.PORT) : 8000

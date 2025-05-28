@@ -13,11 +13,10 @@ import {
 import routing from '@novice1/routing';
 import { SecuritySchemeObject } from '@novice1/api-doc-generator/lib/generators/openapi/definitions';
 import Logger from '@novice1/logger';
-import { HOST, PORT } from '../../../../config/app';
 
 const Log = Logger.debugger('openid-shape')
 
-const issuer = HOST || `http://localhost:${PORT}`
+const issuer = ''
 const authorizationEndpoint = '/openid/login'
 const tokenEndpoint = '/openid/token'
 const userInfoEndpoint = '/openid/profile'

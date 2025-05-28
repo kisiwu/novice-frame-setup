@@ -92,6 +92,9 @@ export default function createSecurityShapeCmd(program) {
 
             template = templateObj.name
             fileName = templateObj.file
+        } else {
+            const templateObj = TEMPLATES.find(t => t.name === opts.template)
+            fileName = templateObj?.file
         }
 
         debug('template =', template)
